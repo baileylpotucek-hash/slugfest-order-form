@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import './styles.css';
 
 const GOOGLE_SCRIPT_URL = 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
-const VENMO_LINK = 'PASTE_YOUR_VENMO_LINK_HERE';
+const VENMO_LINK = 'YOUR_VENMO_LINK_HERE';
 
 const ADULT_SIZES = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL'];
 const YOUTH_SIZES = ['XS', 'S', 'M', 'L', 'XL'];
@@ -60,18 +60,14 @@ function App() {
   const currentLineTotal = currentPrice * quantity;
 
   const total = useMemo(
-    () => cart.reduce((sum, item) => sum + Number(item.lineTotal || 0), 0),
-    [cart]
-  );
-
-  const itemCount = useMemo(
-    () => cart.reduce((sum, item) => sum + Number(item.quantity || 0), 0),
+    () => cart.reduce((sum, item) => sum + item.lineTotal, 0),
     [cart]
   );
 
   function handleTypeChange(nextType) {
     setShirtType(nextType);
-    setSize(getSizeOptions(nextType)[0]);
+    const nextSizes = getSizeOptions(nextType);
+    setSize(nextSizes[0]);
   }
 
   function addToCart() {
@@ -80,25 +76,20 @@ function App() {
       {
         id: makeId(),
         shirtType,
-        shirtBrand: shirtType === 'Toddler' ? 'Gildan Heavy Cotton' : 'Gildan Softstyle',
-        color: 'Sport Grey',
         size,
         quantity,
         unitPrice: currentPrice,
         lineTotal: currentLineTotal,
       },
     ]);
-    setQuantity(1);
-    setStatus('idle');
-    setMessage('');
   }
 
   function removeItem(id) {
     setCart((current) => current.filter((item) => item.id !== id));
   }
 
-  async function submitOrder(event) {
-    event.preventDefault();
+  async function submitOrder(e) {
+    e.preventDefault();
 
     if (!cart.length) {
       setStatus('error');
@@ -108,7 +99,7 @@ function App() {
 
     if (!name || !phone || !email || !address) {
       setStatus('error');
-      setMessage('Please complete your name, phone, email, and address.');
+      setMessage('Please complete name, phone, email, and address.');
       return;
     }
 
@@ -136,7 +127,6 @@ function App() {
       notes,
       pickup: 'Pick up at tournament',
       total,
-      itemCount,
       items: cart,
     };
 
@@ -159,7 +149,7 @@ function App() {
       }
 
       setStatus('success');
-      setMessage('Shirt pre-order submitted successfully. Thank you!');
+      setMessage('Shirt pre-order submitted successfully.');
       setCart([]);
       setName('');
       setPhone('');
@@ -181,66 +171,36 @@ function App() {
         <div className="heroText">
           <p className="eyebrow">Clearwater Tribe Baseball</p>
           <h1>Slugfest 2026 Shirt Pre-Order</h1>
-          <p className="lead">
-            Official tournament shirts in <strong>Sport Grey</strong>. Orders are pre-order only and will be available for pickup at the tournament.
+          <p>
+            Official tournament shirts in <strong>Sport Grey</strong>. Orders are pre-order only
+            and will be available for pickup at the tournament.
           </p>
 
           <div className="badges">
             <span>Sport Grey</span>
-            <span>One Design</span>
+            <span>Gildan Shirts</span>
             <span>Tournament Pickup</span>
           </div>
 
-          <div className="heroActions">
-            <a className="primaryLink" href="#order">Start Shirt Order</a>
-            <a className="secondaryLink" href={VENMO_LINK} target="_blank" rel="noreferrer">Venmo Payment</a>
-          </div>
+          <a className="primaryLink" href="#order">
+            Order Shirts
+          </a>
         </div>
 
-        <div className="mockupCard featuredMockup">
+        <div className="mockupCard">
           <img src="/images/shirt-front-back.png" alt="Slugfest shirt front and back" />
         </div>
       </section>
 
       <section className="section">
-        <div className="sectionHead">
-          <div>
-            <p className="eyebrow">Design Preview</p>
-            <h2>Front pocket + full back print</h2>
-          </div>
-          <p>Adults and Youth are Gildan Softstyle. Toddlers are Gildan Heavy Cotton.</p>
-        </div>
-
         <div className="mockupGrid">
           <img src="/images/shirt-front.png" alt="Front shirt mockup" />
           <img src="/images/shirt-back.png" alt="Back shirt mockup" />
         </div>
       </section>
 
-      <section className="section pricingSection">
-        <p className="eyebrow">Pricing</p>
-        <h2>Simple shirt pricing</h2>
-        <div className="pricingGrid">
-          <div className="priceCard">
-            <h3>Adult Softstyle</h3>
-            <p>XS–XL: <strong>$17</strong></p>
-            <p>2XL: <strong>$18</strong></p>
-            <p>3XL: <strong>$19</strong></p>
-            <p>4XL–5XL: <strong>$20</strong></p>
-          </div>
-          <div className="priceCard">
-            <h3>Youth Softstyle</h3>
-            <p>XS–XL: <strong>$12</strong></p>
-          </div>
-          <div className="priceCard">
-            <h3>Toddler Heavy Cotton</h3>
-            <p>2T–6T: <strong>$10</strong></p>
-          </div>
-        </div>
-      </section>
-
       <section id="order" className="section orderGrid">
-        <div className="card stickyCard">
+        <div className="card">
           <p className="eyebrow">Build Your Order</p>
           <h2>Select shirt options</h2>
 
@@ -276,7 +236,7 @@ function App() {
           </div>
 
           <div className="priceBox">
-            <span>Current item total</span>
+            <span>Line Total</span>
             <strong>{money(currentLineTotal)}</strong>
           </div>
 
@@ -285,9 +245,9 @@ function App() {
           </button>
 
           <div className="infoBox">
-            <h3>Pickup + Shipping</h3>
-            <p>Pickup at tournament is included.</p>
-            <p>If shipping is needed, shipping will be at cost. Contact <strong>620-222-2517</strong> before ordering to arrange shipping.</p>
+            <h3>Pricing</h3>
+            <p>Adult XS–XL: $17 · 2XL: $18 · 3XL: $19 · 4XL–5XL: $20</p>
+            <p>Youth XS–XL: $12 · Toddler 2T–6T: $10</p>
           </div>
         </div>
 
@@ -301,12 +261,13 @@ function App() {
                 <div className="cartItem" key={item.id}>
                   <div>
                     <strong>{item.shirtType} {item.size}</strong>
-                    <p>{item.shirtBrand} · {item.color}</p>
                     <p>Qty {item.quantity} · {money(item.unitPrice)} each</p>
                   </div>
-                  <div className="cartRight">
+                  <div>
                     <strong>{money(item.lineTotal)}</strong>
-                    <button type="button" onClick={() => removeItem(item.id)}>Remove</button>
+                    <button type="button" onClick={() => removeItem(item.id)}>
+                      Remove
+                    </button>
                   </div>
                 </div>
               ))
@@ -316,29 +277,29 @@ function App() {
           </div>
 
           <div className="total">
-            <span>Total Due via Venmo</span>
+            <span>Total</span>
             <strong>{money(total)}</strong>
           </div>
 
           <div className="fields">
             <label className="full">
               Full Name *
-              <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Full name" />
+              <input value={name} onChange={(e) => setName(e.target.value)} />
             </label>
 
             <label>
               Phone *
-              <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="620-222-2517" />
+              <input value={phone} onChange={(e) => setPhone(e.target.value)} />
             </label>
 
             <label>
               Email *
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="email@example.com" />
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             </label>
 
             <label className="full">
               Address *
-              <input value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Street, City, State, ZIP" />
+              <input value={address} onChange={(e) => setAddress(e.target.value)} />
             </label>
 
             <label className="full">
@@ -351,7 +312,7 @@ function App() {
 
             {shippingNeeded === 'Yes' && (
               <div className="warning full">
-                Shipping is at cost and must be arranged first. Please contact 620-222-2517 before submitting your pre-order.
+                Shipping is at cost and must be arranged first. Contact 620-222-2517 before submitting.
               </div>
             )}
 
@@ -366,12 +327,12 @@ function App() {
 
             <label className="checkbox full">
               <input type="checkbox" checked={paid} onChange={(e) => setPaid(e.target.checked)} />
-              <span>I submitted Venmo payment.</span>
+              I submitted Venmo payment.
             </label>
 
             <label className="full">
               Notes
-              <textarea rows="3" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Optional notes" />
+              <textarea rows="3" value={notes} onChange={(e) => setNotes(e.target.value)} />
             </label>
           </div>
 
@@ -380,10 +341,13 @@ function App() {
           </a>
 
           <p className="paymentNote">
-            Your order is not finalized until payment has been submitted through Venmo. Please include your name in the Venmo payment notes.
+            Your order is not finalized until payment has been submitted through Venmo.
+            Please include your name in the Venmo payment notes.
           </p>
 
-          <button className="primaryButton" type="submit">Submit Shirt Pre-Order</button>
+          <button className="primaryButton" type="submit">
+            Submit Shirt Pre-Order
+          </button>
 
           {message && <div className={`status ${status}`}>{message}</div>}
         </form>
