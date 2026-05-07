@@ -337,20 +337,33 @@ function App() {
           </div>
 
           <div id="payment" className="card venmoCard">
-            <div className="cardHeader">Complete Payment via Venmo</div>
-            <div className="venmoContent">
-              <div className="venmoLogo">Venmo</div>
-              <div>
-                <a className="venmoButton" href={VENMO_LINK} target="_blank" rel="noreferrer">
-                  Pay with Venmo
-                </a>
-                <p>{VENMO_NAME}</p>
-              </div>
+            <div className="cardHeader">Complete Payment Via Venmo</div>
+
+            <div className="venmoQrWrap">
+              <img
+                src="/images/venmo-qr.png"
+                alt="Venmo QR Code"
+                className="venmoQr"
+              />
+
+              <a
+                className="venmoButton large"
+                href={VENMO_LINK}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Click Here to Pay Now
+              </a>
+
+              <p className="venmoHandle">{VENMO_NAME}</p>
             </div>
+
             <p className="finePrint">
-              Payment is due immediately after submitting your order. Please include your name
-              in the Venmo payment notes. If payment is not received within 12 hours, we will
-              reach out. Failure to submit payment may result in order cancellation.
+              Payment is due immediately after submitting your order.
+              Please include your name in the Venmo payment notes.
+              If payment is not received within 12 hours, we will
+              reach out. Failure to submit payment may result in
+              order cancellation.
             </p>
           </div>
         </div>
