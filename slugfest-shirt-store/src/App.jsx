@@ -2,8 +2,9 @@ import { useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
 
-const GOOGLE_SCRIPT_URL = 'PASTE_YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE';
-const VENMO_LINK = 'YOUR_VENMO_LINK_HERE';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDevM6d8_Ogtn5gK87xIGx4lmQBIXBKpiKG3J7q5nShTAUqO35o2jGI9U9roJz6y0t/exec';
+const VENMO_LINK = 'https://venmo.com/u/tribebaseballbjostad';
+const VENMO_NAME = '@tribebaseballbjostad';
 
 const ADULT_SIZES = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL', '4XL', '5XL'];
 const YOUTH_SIZES = ['XS', 'S', 'M', 'L', 'XL'];
@@ -31,7 +32,7 @@ function money(value) {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-  }).format(value);
+  }).format(value || 0);
 }
 
 function makeId() {
@@ -41,7 +42,7 @@ function makeId() {
 function App() {
   const [cart, setCart] = useState([]);
   const [shirtType, setShirtType] = useState('Adult');
-  const [size, setSize] = useState('M');
+  const [size, setSize] = useState('');
   const [quantity, setQuantity] = useState(1);
 
   const [name, setName] = useState('');
@@ -56,21 +57,26 @@ function App() {
   const [status, setStatus] = useState('idle');
   const [message, setMessage] = useState('');
 
-  const currentPrice = getPrice(shirtType, size);
+  const currentPrice = size ? getPrice(shirtType, size) : 0;
   const currentLineTotal = currentPrice * quantity;
 
   const total = useMemo(
-    () => cart.reduce((sum, item) => sum + item.lineTotal, 0),
+    () => cart.reduce((sum, item) => sum + Number(item.lineTotal || 0), 0),
     [cart]
   );
 
   function handleTypeChange(nextType) {
     setShirtType(nextType);
-    const nextSizes = getSizeOptions(nextType);
-    setSize(nextSizes[0]);
+    setSize('');
   }
 
   function addToCart() {
+    if (!size) {
+      setStatus('error');
+      setMessage('Please select a size before adding to order.');
+      return;
+    }
+
     setCart((current) => [
       ...current,
       {
@@ -82,6 +88,10 @@ function App() {
         lineTotal: currentLineTotal,
       },
     ]);
+
+    setStatus('idle');
+    setMessage('');
+    setQuantity(1);
   }
 
   function removeItem(id) {
@@ -105,7 +115,7 @@ function App() {
 
     if (shippingNeeded === 'Yes') {
       setStatus('error');
-      setMessage('Shipping must be arranged first. Please contact 620-222-2517 before submitting.');
+      setMessage('Shipping is at cost and must be arranged first. Please contact 620-222-2517 before submitting.');
       return;
     }
 
@@ -167,93 +177,193 @@ function App() {
 
   return (
     <main className="page">
+      <header className="topbar">
+        <div className="brandMark">
+          <span className="miniLogo">⚾</span>
+          <span>Clearwater Tribe Baseball</span>
+        </div>
+        <nav>
+          <a href="#details">Details</a>
+          <a href="#order">Order Shirts</a>
+          <a href="#payment">Venmo</a>
+        </nav>
+      </header>
+
       <section className="hero">
         <div className="heroText">
-          <p className="eyebrow">Clearwater Tribe Baseball</p>
-          <h1>Slugfest 2026 Shirt Pre-Order</h1>
+          <p className="eyebrow">Clearwater Tribe</p>
+          <h1>
+            Slugfest 2026
+            <span>Shirt Pre-Order</span>
+          </h1>
           <p>
             Official tournament shirts in <strong>Sport Grey</strong>. Orders are pre-order only
             and will be available for pickup at the tournament.
           </p>
 
-          <div className="badges">
-            <span>Sport Grey</span>
-            <span>Gildan Shirts</span>
-            <span>Tournament Pickup</span>
+          <div className="iconRow">
+            <div>
+              <span className="icon">👕</span>
+              <strong>Sport Grey</strong>
+            </div>
+            <div>
+              <span className="icon">☁️</span>
+              <strong>Gildan Shirts</strong>
+            </div>
+            <div>
+              <span className="icon">🏆</span>
+              <strong>Tournament Pickup</strong>
+            </div>
           </div>
 
           <a className="primaryLink" href="#order">
-            Order Shirts
+            Order Now ↓
           </a>
         </div>
 
-        <div className="mockupCard">
-          <img src="/images/shirt-front-back.png" alt="Slugfest shirt front and back" />
+        <div className="heroShirts">
+          <img className="frontHero" src="/images/shirt-front.png" alt="Slugfest shirt front" />
+          <img className="backHero" src="/images/shirt-back.png" alt="Slugfest shirt back" />
         </div>
       </section>
 
-      <section className="section">
-        <div className="mockupGrid">
-          <img src="/images/shirt-front.png" alt="Front shirt mockup" />
-          <img src="/images/shirt-back.png" alt="Back shirt mockup" />
+      <section id="details" className="details section">
+        <div className="sectionTitle">
+          <span></span>
+          <h2>Shirt Details</h2>
+          <span></span>
+        </div>
+
+        <div className="detailsGrid">
+          <div>
+            <h3>Front</h3>
+            <img src="/images/shirt-front.png" alt="Front shirt mockup" />
+          </div>
+          <div>
+            <h3>Back</h3>
+            <img src="/images/shirt-back.png" alt="Back shirt mockup" />
+          </div>
+          <div className="colorCard">
+            <h3>Color</h3>
+            <div className="swatch"></div>
+            <strong>Sport Grey</strong>
+          </div>
         </div>
       </section>
 
-      <section id="order" className="section orderGrid">
-        <div className="card">
-          <p className="eyebrow">Build Your Order</p>
-          <h2>Select shirt options</h2>
+      <section id="order" className="orderGrid section">
+        <div>
+          <div className="card">
+            <div className="cardHeader">Build Your Order</div>
 
-          <div className="fields">
-            <label>
-              Shirt Type
-              <select value={shirtType} onChange={(e) => handleTypeChange(e.target.value)}>
-                <option>Adult</option>
-                <option>Youth</option>
-                <option>Toddler</option>
-              </select>
-            </label>
+            <label className="label">Shirt Type</label>
+            <div className="tabRow">
+              {['Adult', 'Youth', 'Toddler'].map((type) => (
+                <button
+                  key={type}
+                  type="button"
+                  className={shirtType === type ? 'active' : ''}
+                  onClick={() => handleTypeChange(type)}
+                >
+                  {type}
+                </button>
+              ))}
+            </div>
 
-            <label>
-              Size
-              <select value={size} onChange={(e) => setSize(e.target.value)}>
-                {getSizeOptions(shirtType).map((option) => (
-                  <option key={option}>{option}</option>
-                ))}
-              </select>
-            </label>
+            <div className="fields two">
+              <label>
+                Size
+                <select value={size} onChange={(e) => setSize(e.target.value)}>
+                  <option value="">Select size</option>
+                  {getSizeOptions(shirtType).map((option) => (
+                    <option key={option}>{option}</option>
+                  ))}
+                </select>
+              </label>
 
-            <label>
-              Quantity
-              <input
-                type="number"
-                min="1"
-                max="20"
-                value={quantity}
-                onChange={(e) => setQuantity(Math.max(1, Number(e.target.value) || 1))}
-              />
-            </label>
+              <label>
+                Quantity
+                <input
+                  type="number"
+                  min="1"
+                  max="25"
+                  value={quantity}
+                  onChange={(e) => setQuantity(Math.max(1, Number(e.target.value) || 1))}
+                />
+              </label>
+            </div>
+
+            <div className="priceInline">
+              <span>Price</span>
+              <strong>{money(currentLineTotal)}</strong>
+            </div>
+
+            <button type="button" className="primaryButton" onClick={addToCart}>
+              Add to Order
+            </button>
           </div>
 
-          <div className="priceBox">
-            <span>Line Total</span>
-            <strong>{money(currentLineTotal)}</strong>
+          <div className="card pricing">
+            <div className="cardHeader">Pricing</div>
+            <div className="pricingGrid">
+              <div>
+                <h3>Adult</h3>
+                <p>XS–XL <strong>$17</strong></p>
+                <p>2XL <strong>$18</strong></p>
+                <p>3XL <strong>$19</strong></p>
+                <p>4XL–5XL <strong>$20</strong></p>
+              </div>
+              <div>
+                <h3>Youth</h3>
+                <p>XS–XL <strong>$12</strong></p>
+              </div>
+              <div>
+                <h3>Toddler</h3>
+                <p>2T–6T <strong>$10</strong></p>
+              </div>
+            </div>
           </div>
 
-          <button type="button" className="primaryButton" onClick={addToCart}>
-            Add Shirt to Order
-          </button>
+          <div className="card pickup">
+            <div className="infoLine">
+              <span>📍</span>
+              <div>
+                <h3>Pickup</h3>
+                <p>Tournament pickup included with all orders.</p>
+              </div>
+            </div>
+            <div className="infoLine">
+              <span>🚚</span>
+              <div>
+                <h3>Shipping</h3>
+                <p>
+                  Shipping is at cost and must be arranged first. Contact
+                  <strong> 620-222-2517</strong> before ordering to arrange.
+                </p>
+              </div>
+            </div>
+          </div>
 
-          <div className="infoBox">
-            <h3>Pricing</h3>
-            <p>Adult XS–XL: $17 · 2XL: $18 · 3XL: $19 · 4XL–5XL: $20</p>
-            <p>Youth XS–XL: $12 · Toddler 2T–6T: $10</p>
+          <div id="payment" className="card venmoCard">
+            <div className="cardHeader">Complete Payment via Venmo</div>
+            <div className="venmoContent">
+              <div className="venmoLogo">Venmo</div>
+              <div>
+                <a className="venmoButton" href={VENMO_LINK} target="_blank" rel="noreferrer">
+                  Pay with Venmo
+                </a>
+                <p>{VENMO_NAME}</p>
+              </div>
+            </div>
+            <p className="finePrint">
+              Your order is not finalized until payment has been submitted through Venmo.
+              Please include your name in the Venmo payment notes.
+            </p>
           </div>
         </div>
 
-        <form className="card" onSubmit={submitOrder}>
-          <p className="eyebrow">Checkout</p>
-          <h2>Submit pre-order</h2>
+        <form className="card checkout" onSubmit={submitOrder}>
+          <div className="cardHeader">Your Order</div>
 
           <div className="cart">
             {cart.length ? (
@@ -272,86 +382,85 @@ function App() {
                 </div>
               ))
             ) : (
-              <p className="empty">No shirts added yet.</p>
+              <p className="empty">🛒 Your cart is empty.</p>
             )}
           </div>
 
           <div className="total">
-            <span>Total</span>
+            <span>Order Total</span>
             <strong>{money(total)}</strong>
           </div>
+
+          <div className="cardHeader">Customer Information</div>
 
           <div className="fields">
             <label className="full">
               Full Name *
-              <input value={name} onChange={(e) => setName(e.target.value)} />
+              <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Enter your full name" />
             </label>
 
             <label>
-              Phone *
-              <input value={phone} onChange={(e) => setPhone(e.target.value)} />
+              Phone Number *
+              <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Enter your phone number" />
             </label>
 
             <label>
-              Email *
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+              Email Address *
+              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email address" />
             </label>
 
             <label className="full">
-              Address *
-              <input value={address} onChange={(e) => setAddress(e.target.value)} />
+              Mailing Address *
+              <input value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Enter your mailing address" />
             </label>
 
-            <label className="full">
+            <label>
               Shipping Needed?
               <select value={shippingNeeded} onChange={(e) => setShippingNeeded(e.target.value)}>
-                <option>No</option>
-                <option>Yes</option>
+                <option value="No">No (Pick up at tournament)</option>
+                <option value="Yes">Yes — contact 620-222-2517 first</option>
               </select>
+            </label>
+
+            <label>
+              Venmo Username or Name
+              <input
+                value={venmoName}
+                onChange={(e) => setVenmoName(e.target.value)}
+                placeholder="Enter Venmo username or name"
+              />
             </label>
 
             {shippingNeeded === 'Yes' && (
               <div className="warning full">
-                Shipping is at cost and must be arranged first. Contact 620-222-2517 before submitting.
+                Shipping must be arranged first. Contact 620-222-2517 before submitting.
               </div>
             )}
 
-            <label className="full">
-              Venmo Name / Username
-              <input
-                value={venmoName}
-                onChange={(e) => setVenmoName(e.target.value)}
-                placeholder="@username or name used for payment"
-              />
-            </label>
-
             <label className="checkbox full">
               <input type="checkbox" checked={paid} onChange={(e) => setPaid(e.target.checked)} />
-              I submitted Venmo payment.
+              I have submitted Venmo payment.
             </label>
 
             <label className="full">
-              Notes
-              <textarea rows="3" value={notes} onChange={(e) => setNotes(e.target.value)} />
+              Additional Notes
+              <textarea rows="4" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Any notes for your order?" />
             </label>
           </div>
 
-          <a className="venmoButton" href={VENMO_LINK} target="_blank" rel="noreferrer">
-            Pay with Venmo
-          </a>
-
-          <p className="paymentNote">
-            Your order is not finalized until payment has been submitted through Venmo.
-            Please include your name in the Venmo payment notes.
-          </p>
-
-          <button className="primaryButton" type="submit">
-            Submit Shirt Pre-Order
+          <button className="primaryButton submitButton" type="submit">
+            Submit Shirt Pre-Order ✈
           </button>
 
           {message && <div className={`status ${status}`}>{message}</div>}
         </form>
       </section>
+
+      <footer className="footer">
+        <span>Clearwater Tribe Baseball</span>
+        <strong>Thank you for supporting Tribe Baseball!</strong>
+        <span>Questions? Call/Text 620-222-2517</span>
+      </footer>
     </main>
   );
 }
