@@ -1,607 +1,396 @@
-:root {
-  --navy: #06172a;
-  --navy2: #082747;
-  --blue: #1f7ae0;
-  --lightBlue: #6fa8dc;
-  --ink: #07152a;
-  --light: #eef5ff;
-  --muted: #5d6b80;
-  --border: #cfd8e3;
-  --card: #ffffff;
-}
+/* =========================
+   GLOBAL
+========================= */
 
 * {
   box-sizing: border-box;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   margin: 0;
-  color: var(--ink);
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f5f7fb;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  background: #eef2f7;
+  color: #0f172a;
 }
 
-.topbar {
-  height: 86px;
-  padding: 0 34px;
-  background: linear-gradient(90deg, #06172a, #082747);
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid rgba(255,255,255,.25);
-  text-transform: uppercase;
-  letter-spacing: .16em;
-  font-weight: 900;
-}
-
-.brandMark {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.miniLogo {
-  width: 44px;
-  height: 44px;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(255,255,255,.35);
-  border-radius: 12px;
-}
-
-nav {
-  display: flex;
-  gap: 34px;
-}
-
-nav a {
-  color: white;
+a {
   text-decoration: none;
-  font-size: 14px;
 }
 
-nav a:nth-child(2) {
-  color: var(--lightBlue);
+img {
+  max-width: 100%;
+  display: block;
 }
+
+/* =========================
+   PAGE LAYOUT
+========================= */
+
+.page {
+  min-height: 100vh;
+  background:
+    linear-gradient(rgba(3, 20, 46, 0.92), rgba(3, 20, 46, 0.92)),
+    url("/images/bg-texture.jpg");
+  background-size: cover;
+  background-position: center;
+  padding-bottom: 60px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* =========================
+   HERO
+========================= */
 
 .hero {
-  min-height: 575px;
-  padding: 58px 7vw 48px;
-  display: grid;
-  grid-template-columns: .95fr 1.2fr;
-  align-items: center;
-  gap: 35px;
-  color: white;
-  background:
-    radial-gradient(circle at 82% 20%, rgba(111,168,220,.35), transparent 25%),
-    linear-gradient(rgba(6,23,42,.92), rgba(6,23,42,.86)),
-    linear-gradient(135deg, #091b31, #082747);
-  overflow: hidden;
-}
-
-.eyebrow {
-  margin: 0 0 12px;
-  color: var(--lightBlue);
-  text-transform: uppercase;
-  letter-spacing: .2em;
-  font-weight: 900;
-}
-
-h1 {
-  font-size: clamp(56px, 7vw, 96px);
-  line-height: .88;
-  margin: 0 0 20px;
-  text-transform: uppercase;
-  letter-spacing: .03em;
-}
-
-h1 span {
-  display: block;
-  color: var(--blue);
-  font-size: .48em;
-  margin-top: 20px;
-}
-
-.hero p {
-  max-width: 470px;
-  font-size: 21px;
-  line-height: 1.35;
-}
-
-.iconRow {
-  display: flex;
-  gap: 28px;
-  margin: 34px 0;
-}
-
-.iconRow div {
-  min-width: 110px;
   text-align: center;
-  text-transform: uppercase;
-  font-weight: 900;
-  letter-spacing: .08em;
-}
-
-.icon {
-  display: block;
-  font-size: 42px;
-  margin-bottom: 10px;
-}
-
-.primaryLink,
-.primaryButton,
-.venmoButton {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #1166d8, #2585f4);
+  padding: 40px 20px 10px;
   color: white;
-  border: 0;
-  text-decoration: none;
-  cursor: pointer;
-  border-radius: 8px;
-  padding: 17px 28px;
-  min-height: 54px;
-  text-transform: uppercase;
+}
+
+.heroLogo {
+  width: 120px;
+  margin: 0 auto 18px;
+}
+
+.heroTitle {
+  font-size: 3rem;
   font-weight: 900;
-  letter-spacing: .08em;
-  font-size: 18px;
-}
-
-.heroShirts {
-  position: relative;
-  min-height: 480px;
-}
-
-.heroShirts img {
-  position: absolute;
-  max-height: 470px;
-  width: auto;
-  background: transparent;
-  filter: drop-shadow(0 30px 30px rgba(0,0,0,.38));
-}
-
-.frontHero {
-  left: 0;
-  bottom: 0;
-  z-index: 2;
-}
-
-.backHero {
-  right: 0;
-  bottom: 5px;
-  z-index: 1;
-}
-
-.section {
-  width: min(1120px, calc(100% - 36px));
-  margin: 0 auto;
-}
-
-.sectionTitle {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  gap: 28px;
-  align-items: center;
-  margin: 28px 0 20px;
-}
-
-.sectionTitle span {
-  height: 1px;
-  background: #7d8da3;
-}
-
-.sectionTitle h2 {
+  letter-spacing: 2px;
   margin: 0;
-  color: var(--navy);
   text-transform: uppercase;
-  letter-spacing: .16em;
-  font-size: 30px;
 }
 
-.detailsGrid {
+.heroSubtitle {
+  margin-top: 12px;
+  font-size: 1.1rem;
+  color: #d7e6ff;
+  font-weight: 500;
+}
+
+/* =========================
+   SHIRT DISPLAY
+========================= */
+
+.shirtSection {
+  margin-top: 30px;
+}
+
+.shirtGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr .7fr;
-  gap: 34px;
-  align-items: end;
-  text-align: center;
-  margin-bottom: 22px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
 }
 
-.detailsGrid h3 {
-  margin: 0 0 8px;
-  text-transform: uppercase;
-  letter-spacing: .1em;
+.shirtCard {
+  background: white;
+  border-radius: 26px;
+  padding: 20px;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.18);
 }
 
-.detailsGrid img {
+.shirtImage {
   width: 100%;
-  display: block;
-  max-height: 330px;
-  object-fit: contain;
+  border-radius: 18px;
 }
 
-.colorCard {
-  align-self: stretch;
+.shirtLabel {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #0d3a75;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* =========================
+   MAIN CONTENT
+========================= */
+
+.contentGrid {
   display: grid;
-  place-items: center;
-  align-content: center;
-  gap: 20px;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin-top: 32px;
 }
 
-.swatch {
-  width: 130px;
-  height: 130px;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle, rgba(255,255,255,.25), transparent 45%),
-    #a9aaad;
-  box-shadow: inset 0 0 25px rgba(0,0,0,.25);
+@media (max-width: 980px) {
+  .contentGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
-.orderGrid {
-  display: grid;
-  grid-template-columns: .95fr 1.1fr;
-  gap: 14px;
-  align-items: start;
-  padding: 0 0 70px;
-}
+/* =========================
+   CARD
+========================= */
 
 .card {
   background: white;
-  border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 24px;
   overflow: hidden;
-  margin-bottom: 10px;
-  box-shadow: 0 8px 24px rgba(6,23,42,.08);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.18);
 }
 
 .cardHeader {
-  background: linear-gradient(90deg, var(--navy), var(--navy2));
+  background: linear-gradient(90deg, #03142e, #0d4ea6);
   color: white;
-  padding: 11px 18px;
-  text-align: center;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  font-size: 23px;
+  padding: 18px 24px;
+  font-size: 1.2rem;
   font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
-.label {
-  display: block;
-  padding: 16px 18px 8px;
-  font-weight: 800;
+.cardBody {
+  padding: 24px;
 }
 
-.tabRow {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  padding: 0 18px 18px;
-}
-
-.tabRow button {
-  border: 1px solid var(--border);
-  background: white;
-  padding: 14px;
-  cursor: pointer;
-  font-weight: 800;
-}
-
-.tabRow button.active {
-  background: var(--navy);
-  color: white;
-}
-
-.fields {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  padding: 18px;
-}
-
-.fields.two {
-  padding-top: 0;
-}
-
-label {
-  display: grid;
-  gap: 8px;
-  font-weight: 800;
-  font-size: 14px;
-}
-
-.full {
-  grid-column: 1 / -1;
-}
-
-input,
-select,
-textarea {
-  width: 100%;
-  border: 1px solid #c9d3df;
-  border-radius: 6px;
-  padding: 13px 14px;
-  font-size: 16px;
-  font-family: inherit;
-}
-
-.priceInline {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 16px;
-  padding: 0 18px 18px;
-}
-
-.priceInline strong {
-  font-size: 28px;
-}
-
-.primaryButton {
-  width: calc(100% - 36px);
-  margin: 0 18px 18px;
-}
+/* =========================
+   PRICING
+========================= */
 
 .pricingGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  padding: 18px;
   gap: 18px;
 }
 
-.pricingGrid > div {
-  border-right: 1px solid var(--border);
-  min-height: 110px;
-}
-
-.pricingGrid > div:last-child {
-  border-right: 0;
-}
-
-.pricing h3 {
-  margin: 0 0 8px;
-  color: var(--navy);
-  text-transform: uppercase;
-}
-
-.pricing p {
-  display: flex;
-  justify-content: space-between;
-  max-width: 115px;
-  margin: 7px 0;
-}
-
-.pickup {
-  padding: 18px;
-}
-
-.infoLine {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 18px;
-}
-
-.infoLine span {
-  font-size: 36px;
-}
-
-.infoLine h3 {
-  color: var(--blue);
-  margin: 0 0 4px;
-  text-transform: uppercase;
-}
-
-.infoLine p {
-  margin: 0;
-  line-height: 1.35;
-}
-
-.venmoCard {
-  padding-bottom: 18px;
-}
-
-.venmoContent {
-  display: grid;
-  grid-template-columns: .9fr 1fr;
-  gap: 20px;
-  align-items: center;
-  padding: 18px;
-}
-
-.venmoLogo {
-  background: #2d7bc8;
-  color: white;
-  font-size: 48px;
-  font-weight: 900;
-  border-radius: 8px;
-  padding: 10px 16px;
-  font-style: italic;
-}
-
-.venmoButton {
-  width: 100%;
-}
-
-.finePrint {
-  text-align: center;
-  padding: 0 22px;
-  margin: 0;
-  line-height: 1.35;
-}
-
-.checkout .cardHeader:nth-of-type(2) {
-  margin-top: 8px;
-}
-
-.cart {
-  padding: 18px;
-}
-
-.empty {
-  text-align: center;
-  color: var(--muted);
-  padding: 24px;
-  border-bottom: 1px solid var(--border);
-}
-
-.cartItem {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--border);
-  padding: 12px 0;
-}
-
-.cartItem p {
-  color: var(--muted);
-  margin: 4px 0 0;
-}
-
-.cartItem button {
-  border: 0;
-  background: none;
-  color: #b00020;
-  font-weight: 900;
-  cursor: pointer;
-  margin-top: 5px;
-}
-
-.total {
-  display: flex;
-  justify-content: space-between;
-  padding: 16px 24px 24px;
-  text-transform: uppercase;
-  font-weight: 900;
-}
-
-.total strong {
-  font-size: 24px;
-}
-
-.checkbox {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.checkbox input {
-  width: auto;
-}
-
-.warning {
-  background: #fff4df;
-  color: #7a4500;
-  border: 1px solid #ffd08a;
-  padding: 12px;
-  border-radius: 6px;
-}
-
-.submitButton {
-  margin-top: 0;
-  min-height: 70px;
-  font-size: 22px;
-}
-
-.status {
-  margin: 0 18px 18px;
-  padding: 14px;
-  border-radius: 8px;
-  font-weight: 900;
-}
-
-.status.success {
-  background: #dff8e8;
-  color: #07562a;
-}
-
-.status.error {
-  background: #fde2e6;
-  color: #8b0019;
-}
-
-.status.loading {
-  background: #e4f0ff;
-  color: #0c4382;
-}
-
-.footer {
-  min-height: 70px;
-  background: var(--navy);
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 18px 34px;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-}
-
-.footer span {
-  color: var(--lightBlue);
-}
-
-@media (max-width: 950px) {
-  .topbar {
-    height: auto;
-    padding: 18px;
-    align-items: flex-start;
-    gap: 16px;
-    flex-direction: column;
-  }
-
-  nav {
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-
-  .hero,
-  .orderGrid,
-  .detailsGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .hero {
-    padding: 44px 22px;
-  }
-
-  .heroShirts {
-    min-height: 390px;
-  }
-
-  .heroShirts img {
-    max-height: 350px;
-  }
-
-  .frontHero {
-    left: -12px;
-  }
-
-  .backHero {
-    right: -12px;
-  }
-
-  .iconRow {
-    flex-wrap: wrap;
-  }
-
-  .fields,
+@media (max-width: 640px) {
   .pricingGrid {
     grid-template-columns: 1fr;
   }
+}
 
-  .pricingGrid > div {
-    border-right: 0;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 12px;
-  }
+.priceBox {
+  border: 2px solid #dbe6f5;
+  border-radius: 18px;
+  padding: 18px;
+}
 
-  .footer {
-    flex-direction: column;
-    gap: 10px;
-    text-align: center;
+.priceTitle {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #0d3a75;
+  margin-bottom: 10px;
+}
+
+.priceRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+@media (max-width: 640px) {
+  .formGrid {
+    grid-template-columns: 1fr;
   }
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formFull {
+  grid-column: span 2;
+}
+
+@media (max-width: 640px) {
+  .formFull {
+    grid-column: span 1;
+  }
+}
+
+.label {
+  font-size: 0.92rem;
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: #0f172a;
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  border: 2px solid #d5dfed;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 1rem;
+  background: #f8fbff;
+  transition: .2s ease;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  border-color: #1d6ee8;
+  outline: none;
+  background: white;
+}
+
+.textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.primaryButton {
+  width: 100%;
+  border: none;
+  border-radius: 16px;
+  padding: 18px;
+  background: linear-gradient(90deg, #0d4ea6, #2d82ff);
+  color: white;
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: .2s ease;
+  text-transform: uppercase;
+}
+
+.primaryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(13, 78, 166, 0.35);
+}
+
+/* =========================
+   SHIPPING / PICKUP
+========================= */
+
+.infoBlock {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.infoIcon {
+  font-size: 2rem;
+}
+
+.infoTitle {
+  font-weight: 900;
+  color: #0d4ea6;
+  margin-bottom: 4px;
+}
+
+.infoText {
+  line-height: 1.5;
+  color: #1e293b;
+}
+
+/* =========================
+   VENMO SECTION
+========================= */
+
+.venmoSection {
+  margin-top: 24px;
+}
+
+.venmoQrWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  padding: 24px 10px;
+}
+
+.venmoQr {
+  width: 260px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto 20px;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.12);
+}
+
+.venmoButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(90deg, #0d4ea6, #2d82ff);
+  color: white;
+  padding: 16px 28px;
+  border-radius: 16px;
+  font-weight: 900;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: .2s ease;
+}
+
+.venmoButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(13, 78, 166, 0.35);
+}
+
+.venmoText {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #334155;
+  max-width: 500px;
+}
+
+/* =========================
+   SUCCESS / ERROR
+========================= */
+
+.successBox {
+  margin-top: 18px;
+  background: #dcfce7;
+  border: 1px solid #86efac;
+  color: #166534;
+  padding: 16px;
+  border-radius: 14px;
+  font-weight: 700;
+}
+
+.errorBox {
+  margin-top: 18px;
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #991b1b;
+  padding: 16px;
+  border-radius: 14px;
+  font-weight: 700;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+  margin-top: 40px;
+  text-align: center;
+  color: #d8e7ff;
+  font-size: 0.95rem;
+  padding: 30px 20px;
+  font-weight: 600;
+}
+
+.footer strong {
+  color: white;
 }
