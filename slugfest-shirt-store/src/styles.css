@@ -162,6 +162,7 @@ h1 span {
   position: absolute;
   max-height: 470px;
   width: auto;
+  background: transparent;
   filter: drop-shadow(0 30px 30px rgba(0,0,0,.38));
 }
 
