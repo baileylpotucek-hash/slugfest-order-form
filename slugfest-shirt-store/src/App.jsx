@@ -152,7 +152,7 @@ function App() {
       }
 
       setStatus('success');
-      setMessage('Shirt pre-order submitted successfully. Payment is due immediately via Venmo.');
+      setMessage('Shirt pre-order submitted successfully. Payment is due immediately via Venmo. See QR Code Below or click the button below the QR Code.');
       setCart([]);
       setName('');
       setPhone('');
