@@ -51,7 +51,6 @@ function App() {
   const [address, setAddress] = useState('');
   const [shippingNeeded, setShippingNeeded] = useState('No');
   const [venmoName, setVenmoName] = useState('');
-  const [paid, setPaid] = useState(false);
   const [notes, setNotes] = useState('');
 
   const [status, setStatus] = useState('idle');
@@ -119,12 +118,6 @@ function App() {
       return;
     }
 
-    if (!paid) {
-      setStatus('error');
-      setMessage('Please complete Venmo payment and check the payment confirmation box.');
-      return;
-    }
-
     const payload = {
       submittedAt: new Date().toISOString(),
       name,
@@ -133,7 +126,7 @@ function App() {
       address,
       shippingNeeded,
       venmoName,
-      paid,
+      paymentStatus: 'Payment Due',
       notes,
       pickup: 'Pick up at tournament',
       total,
@@ -159,7 +152,7 @@ function App() {
       }
 
       setStatus('success');
-      setMessage('Shirt pre-order submitted successfully.');
+      setMessage('Shirt pre-order submitted successfully. Payment is due immediately via Venmo.');
       setCart([]);
       setName('');
       setPhone('');
@@ -167,7 +160,6 @@ function App() {
       setAddress('');
       setShippingNeeded('No');
       setVenmoName('');
-      setPaid(false);
       setNotes('');
     } catch (error) {
       setStatus('error');
@@ -356,8 +348,9 @@ function App() {
               </div>
             </div>
             <p className="finePrint">
-              Your order is not finalized until payment has been submitted through Venmo.
-              Please include your name in the Venmo payment notes.
+              Payment is due immediately after submitting your order. Please include your name
+              in the Venmo payment notes. If payment is not received within 12 hours, we will
+              reach out. Failure to submit payment may result in order cancellation.
             </p>
           </div>
         </div>
@@ -433,14 +426,9 @@ function App() {
 
             {shippingNeeded === 'Yes' && (
               <div className="warning full">
-                Shipping is at cost. Text/call 620-222-2517 for pricing before submitting.
+                Shipping is at cost. Please text/call <strong>620-222-2517</strong> for pricing before submitting your order.
               </div>
             )}
-
-            <label className="checkbox full">
-              <input type="checkbox" checked={paid} onChange={(e) => setPaid(e.target.checked)} />
-              I have submitted Venmo payment.
-            </label>
 
             <label className="full">
               Additional Notes
