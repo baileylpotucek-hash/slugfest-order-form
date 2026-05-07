@@ -24,7 +24,7 @@ function getPrice(type, size) {
     return 20;
   }
 
-  if (type === 'Youth') return 12;
+  if (type === 'Youth') return 15;
   return 10;
 }
 
@@ -307,7 +307,7 @@ function App() {
               </div>
               <div>
                 <h3>Youth</h3>
-                <p>XS–XL <strong>$12</strong></p>
+                <p>XS–XL <strong>$15</strong></p>
               </div>
               <div>
                 <h3>Toddler</h3>
