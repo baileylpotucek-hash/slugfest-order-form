@@ -1,4 +1,4 @@
-const SPREADSHEET_ID = '1TvIOJbSwWU3ztUHNm8xUwSbzPILe6FB_Xn1K1V35fec/';
+const SPREADSHEET_ID = '1TvIOJbSwWU3ztUHNm8xUwSbzPILe6FB_Xn1K1V35fec';
 
 function doPost(e) {
   try {
