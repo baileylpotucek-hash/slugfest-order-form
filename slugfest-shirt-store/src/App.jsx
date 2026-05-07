@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
 
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzDevM6d8_Ogtn5gK87xIGx4lmQBIXBKpiKG3J7q5nShTAUqO35o2jGI9U9roJz6y0t/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw5jk4Px3JXfI9E7dQBdSIiUyPvfSp-AN1AwDsEk_A8-NzdWxFQO__x750NZbvKs5Jo/exec';
 const VENMO_LINK = 'https://venmo.com/u/tribebaseballbjostad';
 const VENMO_NAME = '@tribebaseballbjostad';
 
