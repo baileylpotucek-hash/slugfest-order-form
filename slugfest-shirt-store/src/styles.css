@@ -156,6 +156,7 @@ h1 span {
 .heroShirts {
   position: relative;
   min-height: 480px;
+  isolation: isolate;
 }
 
 .heroShirts img {
@@ -163,7 +164,10 @@ h1 span {
   max-height: 470px;
   width: auto;
   background: transparent;
-  filter: drop-shadow(0 30px 30px rgba(0,0,0,.38));
+  mix-blend-mode: multiply;
+  filter:
+    drop-shadow(0 30px 30px rgba(0,0,0,.38))
+    contrast(1.03);
 }
 
 .frontHero {
