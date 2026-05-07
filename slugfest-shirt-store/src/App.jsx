@@ -115,7 +115,7 @@ function App() {
 
     if (shippingNeeded === 'Yes') {
       setStatus('error');
-      setMessage('Shipping is at cost and must be arranged first. Please contact 620-222-2517 before submitting.');
+      setMessage('Shipping is at cost. Please text/call 620-222-2517 for pricing before submitting your order.');
       return;
     }
 
@@ -337,8 +337,8 @@ function App() {
               <div>
                 <h3>Shipping</h3>
                 <p>
-                  Shipping is at cost and must be arranged first. Contact
-                  <strong> 620-222-2517</strong> before ordering to arrange.
+                  Shipping is at cost. If shipping is needed, please text/call
+                  <strong> 620-222-2517</strong> for pricing before ordering.
                 </p>
               </div>
             </div>
@@ -418,7 +418,7 @@ function App() {
               Shipping Needed?
               <select value={shippingNeeded} onChange={(e) => setShippingNeeded(e.target.value)}>
                 <option value="No">No (Pick up at tournament)</option>
-                <option value="Yes">Yes — contact 620-222-2517 first</option>
+                <option value="Yes">Yes — text/call 620-222-2517 for pricing</option>
               </select>
             </label>
 
@@ -433,7 +433,7 @@ function App() {
 
             {shippingNeeded === 'Yes' && (
               <div className="warning full">
-                Shipping must be arranged first. Contact 620-222-2517 before submitting.
+                Shipping is at cost. Text/call 620-222-2517 for pricing before submitting.
               </div>
             )}
 
